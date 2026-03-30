@@ -2,6 +2,11 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
 /* ── OVERLAY ── */
 body::before {
   content: '';
@@ -28,6 +33,9 @@ body {
   align-items: flex-start;
   padding: 40px 16px 80px;
   overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: none;
 }
 
 /* ── NEBULA BLOB ── */
@@ -118,11 +126,12 @@ body {
 }
 
 .bio {
-  color: #94a3b8;
+  color: #e2e8f0;
   font-size: 0.95rem;
   text-align: center;
   line-height: 1.6;
   max-width: 340px;
+  text-shadow: 0 0 12px rgba(192, 132, 252, 0.4);
 }
 
 /* ── DIVIDER ── */
@@ -196,11 +205,12 @@ body {
 
 /* ── FOOTER ── */
 .footer {
-  color: #475569;
+  color: #a78bfa;
   font-size: 0.75rem;
   letter-spacing: 2px;
   text-transform: uppercase;
   text-align: center;
+  text-shadow: 0 0 10px rgba(167, 139, 250, 0.6);
 }
 
 /* ── SHOOTING STARS ── */
