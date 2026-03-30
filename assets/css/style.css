@@ -26,7 +26,7 @@ body::before {
 /* ── BODY ── */
 body {
   min-height: 100vh;
-  background: #020010 url('../img/background.jpg') center center / cover no-repeat fixed;
+  background: #020010 url('../img/background.jpg') center center / cover no-repeat;
   font-family: 'Rajdhani', sans-serif;
   display: flex;
   justify-content: center;
@@ -185,6 +185,9 @@ body {
 .link-btn.gold::before { background: linear-gradient(135deg, #fbbf2422, #92400e22); }
 .link-btn.gold:hover { box-shadow: 0 0 24px #fbbf2455, 0 4px 20px #0005; }
 
+.link-btn.cyan::before { background: linear-gradient(135deg, #2fffff22, #0e749122); }
+.link-btn.cyan:hover { box-shadow: 0 0 24px #2fffff55, 0 4px 20px #0005; }
+
 .link-icon {
   width: 36px;
   height: 36px;
@@ -198,6 +201,7 @@ body {
 .purple .link-icon { background: #7b2fff33; }
 .pink   .link-icon { background: #ff2f7b33; }
 .gold   .link-icon { background: #fbbf2433; }
+.cyan   .link-icon { background: #2fffff22; }
 
 .link-label { flex: 1; }
 .link-arr { opacity: 0.4; font-size: 0.8rem; }
