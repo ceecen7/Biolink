@@ -1,0 +1,13 @@
+{
+  "name": "biolink-galaxy",
+  "version": "1.0.0",
+  "description": "Biolink page with space/galaxy style",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "private": true
+}
