@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BioLink — Ruang Angkasa</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── CANVAS BINTANG ── */
+    #stars-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #020010;
+      font-family: 'Rajdhani', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 16px 80px;
+      overflow-x: hidden;
+    }
+
+    /* ── NEBULA BLOB ── */
+    .nebula {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.18;
+      animation: nebula-drift 20s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .nebula-1 { width: 600px; height: 600px; background: #7b2fff; top: -100px; left: -200px; }
+    .nebula-2 { width: 500px; height: 500px; background: #ff2f7b; bottom: 0; right: -150px; animation-delay: -8s; }
+    .nebula-3 { width: 400px; height: 400px; background: #2fffff; top: 40%; left: 50%; transform: translate(-50%,-50%); animation-delay: -4s; }
+
+    @keyframes nebula-drift {
+      from { transform: scale(1) translate(0, 0); }
+      to   { transform: scale(1.15) translate(30px, 20px); }
+    }
+
+    /* ── CARD ── */
+    .card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    /* ── AVATAR ── */
+    .avatar-wrap {
+      position: relative;
+      width: 110px;
+      height: 110px;
+    }
+    .avatar-ring {
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      background: conic-gradient(#7b2fff, #ff2f7b, #2fffff, #7b2fff);
+      animation: spin 4s linear infinite;
+    }
+    .avatar-ring::before {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      background: #020010;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .avatar {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #a78bfa, #4c1d95 60%, #020010);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      overflow: hidden;
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: none; }
+    /* Jika punya foto: hapus display:none di atas & isi src-nya */
+
+    /* ── NAMA & BIO ── */
+    .name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      text-align: center;
+      background: linear-gradient(90deg, #c084fc, #f0abfc, #67e8f9, #c084fc);
+      background-size: 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 4s linear infinite;
+    }
+    @keyframes shimmer { to { background-position: 300% center; } }
+
+    .handle {
+      color: #a78bfa;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      margin-top: -12px;
+    }
+
+    .bio {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      text-align: center;
+      line-height: 1.6;
+      max-width: 340px;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 80%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #7b2fff80, #2fffff80, transparent);
+    }
+
+    /* ── LINKS ── */
+    .links { width: 100%; display: flex; flex-direction: column; gap: 14px; }
+
+    .link-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 16px;
+      text-decoration: none;
+      color: #e2e8f0;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(12px);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .link-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+      border-radius: inherit;
+    }
+    .link-btn:hover { transform: translateY(-3px) scale(1.02); }
+    .link-btn:hover::before { opacity: 1; }
+    .link-btn:active { transform: scale(0.98); }
+
+    /* Warna per link */
+    .link-btn.purple { box-shadow: 0 0 0 transparent; }
+    .link-btn.purple::before { background: linear-gradient(135deg, #7b2fff22, #4c1d9522); }
+    .link-btn.purple:hover { box-shadow: 0 0 24px #7b2fff55, 0 4px 20px #0005; }
+
+    .link-btn.pink::before { background: linear-gradient(135deg, #ff2f7b22, #be185d22); }
+    .link-btn.pink:hover { box-shadow: 0 0 24px #ff2f7b55, 0 4px 20px #0005; }
+
+    .link-btn.cyan::before { background: linear-gradient(135deg, #2fffff22, #0e749122); }
+    .link-btn.cyan:hover { box-shadow: 0 0 24px #2fffff55, 0 4px 20px #0005; }
+
+    .link-btn.gold::before { background: linear-gradient(135deg, #fbbf2422, #92400e22); }
+    .link-btn.gold:hover { box-shadow: 0 0 24px #fbbf2455, 0 4px 20px #0005; }
+
+    .link-btn.green::before { background: linear-gradient(135deg, #34d39922, #06532522); }
+    .link-btn.green:hover { box-shadow: 0 0 24px #34d39955, 0 4px 20px #0005; }
+
+    .link-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .purple .link-icon { background: #7b2fff33; }
+    .pink   .link-icon { background: #ff2f7b33; }
+    .cyan   .link-icon { background: #2fffff22; }
+    .gold   .link-icon { background: #fbbf2433; }
+    .green  .link-icon { background: #34d39933; }
+
+    .link-label { flex: 1; }
+    .link-arr { opacity: 0.4; font-size: 0.8rem; }
+    .link-btn:hover .link-arr { opacity: 1; }
+
+    /* ── BADGE PLANET ── */
+    .planet-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .planet {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .planet:hover { transform: scale(1.2) rotate(15deg); }
+
+    /* ── FOOTER ── */
+    .footer {
+      color: #475569;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    /* ── SHOOTING STARS ── */
+    .shooting-star {
+      position: fixed;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: shoot 2.5s linear forwards;
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes shoot {
+      0%   { transform: translate(0,0) scaleX(1); opacity: 1; }
+      100% { transform: translate(400px, 200px) scaleX(60); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="stars-canvas"></canvas>
+
+  <div class="nebula nebula-1"></div>
+  <div class="nebula nebula-2"></div>
+  <div class="nebula nebula-3"></div>
+
+  <div class="card">
+
+    <!-- Avatar -->
+    <div class="avatar-wrap">
+      <div class="avatar-ring"></div>
+      <div class="avatar">
+        <img src="avatar.jpg" alt="foto" />
+        🚀
+        <!-- Ganti emoji dengan <img> jika punya foto -->
+      </div>
+    </div>
+
+    <!-- Nama -->
+    <div class="name">NAMA KAMU</div>
+    <div class="handle">@username</div>
+
+    <!-- Bio -->
+    <p class="bio">
+      Explorer of the digital cosmos ✦ Developer · Creator · Dreamer<br>
+      Menjelajahi semesta satu baris kode sekaligus.
+    </p>
+
+    <div class="divider"></div>
+
+    <!-- Links — ganti href dengan URL kamu -->
+    <div class="links">
+
+      <a href="#" class="link-btn purple">
+        <div class="link-icon">🌐</div>
+        <span class="link-label">Website / Portfolio</span>
+        <span class="link-arr">›</span>
+      </a>
+
+      <a href="#" class="link-btn pink">
+        <div class="link-icon">📸</div>
+        <span class="link-label">Instagram</span>
+        <span class="link-arr">›</span>
+      </a>
+
+      <a href="#" class="link-btn cyan">
+        <div class="link-icon">🐦</div>
+        <span class="link-label">Twitter / X</span>
+        <span class="link-arr">›</span>
+      </a>
+
+      <a href="#" class="link-btn gold">
+        <div class="link-icon">▶️</div>
+        <span class="link-label">YouTube</span>
+        <span class="link-arr">›</span>
+      </a>
+
+      <a href="#" class="link-btn green">
+        <div class="link-icon">💬</div>
+        <span class="link-label">WhatsApp / Telegram</span>
+        <span class="link-arr">›</span>
+      </a>
+
+    </div>
+
+    <!-- Planet icons (sosmed tambahan / dekorasi) -->
+    <div class="planet-row">
+      <div class="planet" style="background:#1d1d2e;" title="GitHub">🐙</div>
+      <div class="planet" style="background:#1d1d2e;" title="LinkedIn">💼</div>
+      <div class="planet" style="background:#1d1d2e;" title="TikTok">🎵</div>
+      <div class="planet" style="background:#1d1d2e;" title="Discord">🎮</div>
+      <div class="planet" style="background:#1d1d2e;" title="Email">📧</div>
+    </div>
+
+    <div class="footer">✦ made with stardust ✦</div>
+
+  </div>
+
+  <script>
+    /* ── CANVAS BINTANG ── */
+    const canvas = document.getElementById('stars-canvas');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+
+    function resize() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+      buildStars();
+    }
+
+    function buildStars() {
+      stars = [];
+      const n = Math.floor((canvas.width * canvas.height) / 3000);
+      for (let i = 0; i < n; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 1.4 + 0.2,
+          alpha: Math.random(),
+          speed: Math.random() * 0.005 + 0.002,
+          phase: Math.random() * Math.PI * 2,
+        });
+      }
+    }
+
+    function drawStars(t) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const s of stars) {
+        const a = 0.3 + 0.7 * Math.abs(Math.sin(s.phase + t * s.speed));
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${a})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(drawStars);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    requestAnimationFrame(drawStars);
+
+    /* ── SHOOTING STAR ACAK ── */
+    function launchStar() {
+      const el = document.createElement('div');
+      el.className = 'shooting-star';
+      el.style.left = Math.random() * window.innerWidth * 0.6 + 'px';
+      el.style.top  = Math.random() * window.innerHeight * 0.5 + 'px';
+      el.style.transformOrigin = 'left center';
+      el.style.rotate = (Math.random() * 30 + 15) + 'deg';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 2600);
+    }
+
+    launchStar();
+    setInterval(launchStar, 3500 + Math.random() * 2000);
+  </script>
+
+</body>
+</html>
