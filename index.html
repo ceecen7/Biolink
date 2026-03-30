@@ -10,16 +10,26 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     /* ── CANVAS BINTANG ── */
+    /* overlay gelap di atas background foto */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 0, 16, 0.72);
+      z-index: 0;
+    }
+
     #stars-canvas {
       position: fixed;
       inset: 0;
-      z-index: 0;
+      z-index: 1;
     }
 
     body {
       min-height: 100vh;
-      background: #020010;
+      background: #020010 url('background.jpg') center center / cover no-repeat fixed;
       font-family: 'Rajdhani', sans-serif;
+      /* overlay gelap agar teks tetap terbaca */
       display: flex;
       justify-content: center;
       align-items: flex-start;
@@ -35,7 +45,7 @@
       opacity: 0.18;
       animation: nebula-drift 20s ease-in-out infinite alternate;
       pointer-events: none;
-      z-index: 0;
+      z-index: 2;
     }
     .nebula-1 { width: 600px; height: 600px; background: #7b2fff; top: -100px; left: -200px; }
     .nebula-2 { width: 500px; height: 500px; background: #ff2f7b; bottom: 0; right: -150px; animation-delay: -8s; }
@@ -49,7 +59,7 @@
     /* ── CARD ── */
     .card {
       position: relative;
-      z-index: 1;
+      z-index: 3;
       width: 100%;
       max-width: 420px;
       display: flex;
@@ -259,9 +269,7 @@
     <div class="avatar-wrap">
       <div class="avatar-ring"></div>
       <div class="avatar">
-        <img src="avatar.jpg" alt="foto" />
-        🚀
-        <!-- Ganti emoji dengan <img> jika punya foto -->
+        <img src="avatar.jpg" alt="foto" style="display:block;" />
       </div>
     </div>
 
