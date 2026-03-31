@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Biolink</title>
+  <title>afr1zal annabil | @ceecen</title>
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
@@ -14,70 +14,62 @@
   <div class="nebula nebula-2"></div>
   <div class="nebula nebula-3"></div>
 
-  <div class="card" id="card" style="opacity:0;transition:opacity .4s">
+  <div class="card">
 
     <!-- Avatar -->
     <div class="avatar-wrap">
       <div class="avatar-ring"></div>
       <div class="avatar">
-        <img id="bio-avatar" src="" alt="" />
+        <img src="assets/img/avatar.jpg" alt="afr1zal annabil" />
       </div>
     </div>
 
     <!-- Nama -->
-    <div class="name"  id="bio-name"></div>
-    <div class="handle" id="bio-handle"></div>
+    <div class="name">afr1zal annabil</div>
+    <div class="handle">@ceecen</div>
 
     <!-- Bio -->
-    <p class="bio" id="bio-text"></p>
+    <p class="bio">
+      Haii! Selamat datang di biolink ku 🌌<br>
+      Kumpulan semua sosial media &amp; konten aku ada di sini ✦
+    </p>
 
     <div class="divider"></div>
 
     <!-- Links -->
-    <div class="links" id="bio-links"></div>
+    <div class="links">
 
-    <div class="footer" id="bio-footer"></div>
+      <a href="https://www.tiktok.com/@steven_cocc" target="_blank" rel="noopener" class="link-btn purple">
+        <div class="link-icon">🎵</div>
+        <span class="link-label">TikTok — @steven_cocc</span>
+        <span class="link-arr">›</span>
+      </a>
+
+      <a href="https://www.youtube.com/@Afrizalannabil" target="_blank" rel="noopener" class="link-btn gold">
+        <div class="link-icon">▶️</div>
+        <span class="link-label">YouTube — Afrizalannabil</span>
+        <span class="link-arr">›</span>
+      </a>
+
+      <a href="https://www.instagram.com/stv474777?igsh=dGo1NzMzanozcHNm" target="_blank" rel="noopener" class="link-btn pink">
+        <div class="link-icon">📸</div>
+        <span class="link-label">Instagram — @stv474777</span>
+        <span class="link-arr">›</span>
+      </a>
+
+      <a href="https://discord.gg/XWXBXccC" target="_blank" rel="noopener" class="link-btn cyan">
+        <div class="link-icon">🎮</div>
+        <span class="link-label">Discord — Join Server</span>
+        <span class="link-arr">›</span>
+      </a>
+
+    </div>
+
+    <div class="footer">✦ made with stardust ✦</div>
 
   </div>
 
   <script src="assets/js/app.js"></script>
-  <script>
-    fetch('/config.json')
-      .then(r => r.json())
-      .then(cfg => {
-        document.title = cfg.name + ' | ' + cfg.handle;
-
-        const avatar = document.getElementById('bio-avatar');
-        avatar.src = cfg.avatar || '';
-        avatar.alt = cfg.name;
-
-        document.getElementById('bio-name').textContent   = cfg.name;
-        document.getElementById('bio-handle').textContent = cfg.handle;
-        document.getElementById('bio-text').innerHTML     = cfg.bio.replace(/\n/g, '<br>');
-        document.getElementById('bio-footer').textContent = cfg.footer;
-
-        const linksEl = document.getElementById('bio-links');
-        linksEl.innerHTML = '';
-        (cfg.links || []).forEach(link => {
-          const a = document.createElement('a');
-          a.href = link.url;
-          a.target = '_blank';
-          a.rel = 'noopener';
-          a.className = 'link-btn ' + link.color;
-          a.innerHTML = `
-            <div class="link-icon">${link.icon}</div>
-            <span class="link-label">${link.label}</span>
-            <span class="link-arr">›</span>
-          `;
-          linksEl.appendChild(a);
-        });
-
-        document.getElementById('card').style.opacity = '1';
-      })
-      .catch(() => {
-        document.getElementById('card').style.opacity = '1';
-      });
-  </script>
 
 </body>
 </html>
