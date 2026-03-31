@@ -1,0 +1,37 @@
+{
+  "name": "afr1zal annabil",
+  "handle": "@ceecen",
+  "bio": "Haii! Selamat datang di biolink ku 🌌\nKumpulan semua sosial media & konten aku ada di sini ✦",
+  "avatar": "assets/img/avatar.jpg",
+  "footer": "✦ made with stardust ✦",
+  "links": [
+    {
+      "id": "1",
+      "label": "TikTok — @steven_cocc",
+      "url": "https://www.tiktok.com/@steven_cocc",
+      "icon": "🎵",
+      "color": "purple"
+    },
+    {
+      "id": "2",
+      "label": "YouTube — Afrizalannabil",
+      "url": "https://www.youtube.com/@Afrizalannabil",
+      "icon": "▶️",
+      "color": "gold"
+    },
+    {
+      "id": "3",
+      "label": "Instagram — @stv474777",
+      "url": "https://www.instagram.com/stv474777?igsh=dGo1NzMzanozcHNm",
+      "icon": "📸",
+      "color": "pink"
+    },
+    {
+      "id": "4",
+      "label": "Discord — Join Server",
+      "url": "https://discord.gg/XWXBXccC",
+      "icon": "🎮",
+      "color": "cyan"
+    }
+  ]
+}
